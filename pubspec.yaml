@@ -1,0 +1,17 @@
+name: tel_input
+description: A Dart widget for entering a telephone number
+version: 0.1.0
+homepage: https://github.com/wingkwong/dart-tel-input
+author: WONG, Wing Kam <wingkwong.code@gmail.com>
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  test: ^1.2.0
+  flutter_test:
+      sdk: flutter
