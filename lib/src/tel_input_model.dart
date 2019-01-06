@@ -7,13 +7,23 @@ abstract class TelInputViewModel extends State<TelInput> {
   String _selectedDialCode;
   String _phoneNumberHintText;
   String _phoneNumber;
+  bool _includeDialCode;
+  String _filter;
   final String _defaultDialCode = '+852';
   final Map<String, String> _dialCodeHintTextMapping = TelInputData().getDialCodeHintTextMapping();
   final List<String> _validDialCodes = TelInputData().getValidDialCode();
+  TextEditingController _searchTextController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
+    _searchTextController.addListener(() {
+      setState(() {
+        _filter = _searchTextController.text;
+      });
+    });
+
     _selectedDialCode = ![null, false].contains(widget.dialCode) ? widget.dialCode : _defaultDialCode;
 
     if(!_selectedDialCode.startsWith('+')) {
@@ -24,67 +34,97 @@ abstract class TelInputViewModel extends State<TelInput> {
       throw new Exception('Invalid Dial Code');
     }
 
+    _includeDialCode = widget.includeDialCode == null ? false : widget.includeDialCode;
+
     String val = _getHintTextByDialCode();
     _updatePhoneNumberHintText(val);
   }
 
-  Widget buildTelSelectInputField(BuildContext context) {
-    List<TelInputCountry> countries = TelInputData().getTelInputData();
-
-    return (
-        new DropdownButton<String>(
-          hint: Text("Dial Code"),
-          value: _selectedDialCode,
-          items: countries.map((TelInputCountry country){
-            String name = country.name;
-            String dialCode = "+" + country.dialCode;
-            return new DropdownMenuItem<String>(
-              value: dialCode,
-              child:  new SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: new Text(
-                    name + ' ' + dialCode
-                  )
-              ),
-            );
-          }).toList(),
-          onChanged: (String val) {
-            _onSelectChange(val);
-          },
-        )
-    );
+  @override
+  void dispose() {
+    _searchTextController.dispose();
+    super.dispose();
   }
 
   Widget buildTelInputField(BuildContext context) {
     return (
       TextField(
         onChanged: (String val) => _onTextChange(val),
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-            hintText: _phoneNumberHintText
-        )
-      )
+          onTap: () => _onTextPress(context),
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+              hintText: _phoneNumberHintText
+          )
+       )
     );
-  }
-
-  void _onSelectChange(String val) {
-    setState(() {
-      _selectedDialCode = val;
-    });
-
-    _updatePhoneNumberHintText(val);
   }
 
   void _onTextChange(String val) {
     _phoneNumber = val;
 
     if(widget.onChange is Function) {
-      widget.onChange(_phoneNumber);
+      widget.onChange(_includeDialCode ? _selectedDialCode + _phoneNumber : _phoneNumber);
     }
   }
 
   void _updatePhoneNumberHintText(val) {
     _phoneNumberHintText = val;
+  }
+
+  void _onTextPress(BuildContext context) {
+    _showCountriesDialog(context);
+  }
+
+  void _showCountriesDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: _buildCountriesList()
+        );
+      }
+    );
+  }
+
+  Widget _buildCountriesList() {
+    List<TelInputCountry> countries = TelInputData().getTelInputData();
+    return new Column(
+      children: <Widget>[
+        new Padding(
+         padding: new EdgeInsets.only(top: 20.0),
+        ),
+        new TextField(
+          decoration: new InputDecoration(
+          labelText: "Search Dial Code"
+        ),
+        controller: _searchTextController,
+        ),
+        new Expanded(
+          child: new ListView.builder(
+            itemCount: countries.length,
+            itemBuilder: (BuildContext context, int index) {
+              TelInputCountry country = countries[index];
+              String listTileText = '+' + country.dialCode + ' ' + country.name;
+              return _filter == null || _filter == "" ? _buildCountriesListTile(listTileText, country.dialCode) : listTileText.toLowerCase().contains(_filter.toLowerCase()) ? _buildCountriesListTile(listTileText, country.dialCode) : new Container();
+            },
+          ),
+        )
+      ]
+    );
+  }
+
+  Widget _buildCountriesListTile(String listTileText, String dialCode) {
+    return new ListTile(
+      title: new Text(listTileText),
+      onTap: (){
+        setState(() {
+          _selectedDialCode = '+' + dialCode;
+        });
+        String val = _getHintTextByDialCode();
+        _updatePhoneNumberHintText(val);
+        Navigator.pop(context);
+      }
+    );
   }
 
   String _getHintTextByDialCode() {

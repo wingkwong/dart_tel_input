@@ -8,9 +8,6 @@ class TelInputView extends TelInputViewModel {
         child: Column(
           children: [
             Container(
-              child: buildTelSelectInputField(context),
-            ),
-            Container(
               child: buildTelInputField(context)
             )
           ]
