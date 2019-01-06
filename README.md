@@ -1,17 +1,50 @@
 # Dart Tel Input
-A Dart Widget for entering telephone numbers
+A Dart Widget for entering a telephone number
 
 ## Getting Started
-1. Download the dart_tel_input in pub
-2. Include the widget in your dart file
+### Add the following line in your pubspec file
+````
+tel_input:
+````
+    
+### Get the package by running the command
+````
+flutter packages get
+````
 
+###  Include the widget in your dart file
+````
+import 'package:tel_input/tel_input.dart';
+````
+    
 ## Example Usage:
 ````
 TelInput(
   dialCode: '+852',
+  includeDialCode: true,
   onChange: (String phoneNumber) => print('phoneNumber: $phoneNumber'),
 )
 ````
+
+## Features
+
+### Provision of an example format given the selected dial code 
+![tel-input](https://user-images.githubusercontent.com/35857179/50735133-68cd2000-11e4-11e9-8b28-e120bb9f5518.png)
+
+
+### List of selection of countries with corresponding dial codes
+![tel-input-dial-code-list](https://user-images.githubusercontent.com/35857179/50735127-594dd700-11e4-11e9-9fa3-f689d856b03a.png)
+
+### Filtering items
+![tel-input-searching](https://user-images.githubusercontent.com/35857179/50735131-65d22f80-11e4-11e9-9df1-9dade043b832.png)
+
+## Parameters
+|Parameter|Type|Description|Example|Required?|Default|
+|--|--|--|--|--|--|
+|dialCode|String|Dial Code. See the list below.|'+93'|N|'+852'|
+|includeDialCode|bool|if it is set to true, dial code and phone number will be returned in onChange method|true|N|false|
+|onChange|Function|Function to get the value back|(String phoneNumber) => print('phoneNumber: $phoneNumber')|N|N/A|
+
 
 ## Supported Countries
 

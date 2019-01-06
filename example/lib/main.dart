@@ -18,10 +18,12 @@ class TelInputExample extends StatelessWidget {
             child: Center(
               child: TelInput(
                   dialCode: '+852',
+                  includeDialCode: true,
                   onChange: (String phoneNumber) => print('phoneNumber: $phoneNumber'),
               ),
             ),
           ),
-        )));
+        ))
+    );
   }
 }
