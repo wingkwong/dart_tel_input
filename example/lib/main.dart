@@ -12,18 +12,18 @@ class TelInputExample extends StatelessWidget {
           hintColor: Colors.green,
         ),
         home: Scaffold(
-        body: Builder(
+            body: Builder(
           builder: (context) => Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center(
-              child: TelInput(
-                  dialCode: '+852',
-                  includeDialCode: true,
-                  onChange: (String phoneNumber) => print('phoneNumber: $phoneNumber'),
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: TelInput(
+                    dialCode: '+852',
+                    includeDialCode: true,
+                    onChange: (String phoneNumber) =>
+                        print('phoneNumber: $phoneNumber'),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ))
-    );
+        )));
   }
 }
