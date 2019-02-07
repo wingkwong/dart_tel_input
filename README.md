@@ -1,5 +1,5 @@
 # Dart Tel Input
-A Dart Widget for entering a telephone number
+A Dart widget for entering international telephone numbers with dropdown searching input countries
 
 ## Getting Started
 ### Add the following line in your pubspec file
