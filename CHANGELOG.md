@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.1
+- Revised description 
+- Formatted all files
+- Added FocusNode
 
 ## 0.2.0
 - Removed buildTelSelectInputField
