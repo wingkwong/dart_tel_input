@@ -1,6 +1,6 @@
 name: tel_input
 description: A Dart widget for entering international telephone numbers with dropdown searching input countries
-version: 0.2.1
+version: 0.2.2-rc1
 homepage: https://github.com/wingkwong/dart-tel-input
 author: WONG, Wing Kam <wingkwong.code@gmail.com>
 
