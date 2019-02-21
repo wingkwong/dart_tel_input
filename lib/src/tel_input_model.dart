@@ -91,29 +91,33 @@ abstract class TelInputViewModel extends State<TelInput> {
 
   Widget _buildCountriesList() {
     List<TelInputCountry> countries = TelInputData().getTelInputData();
-    return new Column(children: <Widget>[
-      new Padding(
-        padding: new EdgeInsets.only(top: 20.0),
-      ),
-      new TextField(
-        decoration: new InputDecoration(labelText: "Search Dial Code"),
-        controller: _searchTextController,
-      ),
-      new Expanded(
-        child: new ListView.builder(
-          itemCount: countries.length,
-          itemBuilder: (BuildContext context, int index) {
-            TelInputCountry country = countries[index];
-            String listTileText = '+' + country.dialCode + ' ' + country.name;
-            return _filter == null || _filter == ""
-                ? _buildCountriesListTile(listTileText, country.dialCode)
-                : listTileText.toLowerCase().contains(_filter.toLowerCase())
+    return Container(
+        width: double.maxFinite,
+        child: new Column(children: <Widget>[
+          new Padding(
+            padding: new EdgeInsets.only(top: 20.0),
+          ),
+          new TextField(
+            decoration: new InputDecoration(labelText: "Search Dial Code"),
+            controller: _searchTextController,
+          ),
+          new Expanded(
+            child: new ListView.builder(
+              itemCount: countries.length,
+              itemBuilder: (BuildContext context, int index) {
+                TelInputCountry country = countries[index];
+                String listTileText =
+                    '+' + country.dialCode + ' ' + country.name;
+                return _filter == null || _filter == ""
                     ? _buildCountriesListTile(listTileText, country.dialCode)
-                    : new Container();
-          },
-        ),
-      )
-    ]);
+                    : listTileText.toLowerCase().contains(_filter.toLowerCase())
+                        ? _buildCountriesListTile(
+                            listTileText, country.dialCode)
+                        : new Container();
+              },
+            ),
+          )
+        ]));
   }
 
   Widget _buildCountriesListTile(String listTileText, String dialCode) {
