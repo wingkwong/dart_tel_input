@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.2.2
+- Fixed 'RenderViewport does not support returning intrinsic dimensions' issue
+
 ## 0.2.1
 - Revised description 
 - Formatted all files
